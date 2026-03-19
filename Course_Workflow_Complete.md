@@ -270,13 +270,13 @@ SELECT
     WHEN recency_score >= 4 AND frequency_score >= 3 THEN 'Loyal'
     
     -- Whales: High value but infrequent (large transaction sizes)
-    WHEN monetary_score >= 4 AND frequency_score <= 2 THEN 'Whales'
+    WHEN monetary_score >= 4 THEN 'Whales'
     
     -- At Risk: Used to be active, now dormant
     WHEN recency_score = 4 AND frequency_score >= 2 THEN 'At Risk'
 
     -- New/Testing: Recent signup, low usage
-    WHEN recency_score >= 3 AND frequency_score <= 2 AND monetary_score <= 2 THEN 'New/Testing'
+    WHEN recency_score = 5 AND frequency_score <= 2 THEN 'New/Testing'
 
     -- Dormant: No recent activity
     WHEN recency_score = 1 THEN 'Dormant'
