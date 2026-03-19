@@ -317,13 +317,14 @@ SELECT
     WHEN monetary_score >= 4 AND frequency_score <= 2 THEN 'Whales'
     
     -- At Risk: Used to be active, now dormant
-    WHEN recency_score <= 2 AND frequency_score >= 3 THEN 'At Risk'
-    
-    -- Dormant: No recent activity
-    WHEN recency_score = 1 THEN 'Dormant'
-    
+    WHEN recency_score = 4 AND frequency_score >= 2 THEN 'At Risk'
+
     -- New/Testing: Recent signup, low usage
     WHEN recency_score >= 3 AND frequency_score <= 2 AND monetary_score <= 2 THEN 'New/Testing'
+
+    -- Dormant: No recent activity
+    WHEN recency_score = 1 THEN 'Dormant'
+
     
     ELSE 'Needs Attention'
   END as segment
