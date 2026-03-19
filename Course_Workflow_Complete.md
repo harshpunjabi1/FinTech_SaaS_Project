@@ -261,7 +261,6 @@ CREATE TABLE payflow_analytics.customer_segments AS
 
 SELECT 
   *,
-  CONCAT(recency_score, frequency_score, monetary_score) as rfm_code,
   
   CASE 
     -- Champions: Active, frequent, high value
@@ -270,17 +269,18 @@ SELECT
     -- Loyal: Good recency and frequency
     WHEN recency_score >= 4 AND frequency_score >= 3 THEN 'Loyal'
     
-    -- High Value: Big transactions but infrequent
+    -- Whales: High value but infrequent (large transaction sizes)
     WHEN monetary_score >= 4 AND frequency_score <= 2 THEN 'Whales'
     
     -- At Risk: Used to be active, now dormant
-    WHEN recency_score <= 2 AND frequency_score >= 3 THEN 'At Risk'
-    
+    WHEN recency_score = 4 AND frequency_score >= 2 THEN 'At Risk'
+
+    -- New/Testing: Recent signup, low usage
+    WHEN recency_score >= 3 AND frequency_score <= 2 AND monetary_score <= 2 THEN 'New/Testing'
+
     -- Dormant: No recent activity
     WHEN recency_score = 1 THEN 'Dormant'
-    
-    -- New/Low Value: Recent but low activity
-    WHEN recency_score >= 3 AND frequency_score <= 2 AND monetary_score <= 2 THEN 'New/Testing'
+
     
     ELSE 'Needs Attention'
   END as segment
