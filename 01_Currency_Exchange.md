@@ -69,17 +69,6 @@ CREATE TABLE payflow_star.dim_exchange_rates (
 
 Upload CSV.
 
-```sql
-ALTER TABLE payflow_star.fact_transactions
-ADD COLUMN successful_amount_usd FLOAT64,
-ADD COLUMN fee_earned_usd FLOAT64;
-
-UPDATE payflow_star.fact_transactions f
-SET 
-  successful_amount_usd = f.successful_amount * e.to_usd_rate,
-  fee_earned_usd = f.fee_earned * e.to_usd_rate
-FROM payflow_star.dim_exchange_rates e
-WHERE f.date_key = e.date_key AND f.currency = e.currency;
 ```
 
 DONE.
